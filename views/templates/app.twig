@@ -3,10 +3,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Image Upload</title>
+
+	<link rel="stylesheet" href="{{ app.request.baseUrl }}/css/app.css">
+
+	<script>
+		UPLOADCARE_LIVE = false;
+		UPLOADCARE_IMAGES_ONLY = true;
+		UPLOADCARE_CROP = 'free';
+	</script>
+
+	{{ app.uploadcare.widget.getScriptTag() | raw }}
+
 </head>
 <body>
 	<div class="container">
 		{% block main %} {% endblock %}
 	</div>
+
+
+	{% block scripts %}
+	    
+	{% endblock %}
+
 </body>
 </html>

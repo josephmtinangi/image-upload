@@ -2,6 +2,20 @@
 
 {% block main %}
 
-<h1>Home</h1>
 
+	<form action="{{ url('images.store') }}" class="upload-form" method="POST">
+		{{ app.uploadcare.widget.getInputTag('file-id') | raw }}
+		<button type="submit" class="upload-form__button">Upload</button>
+	</form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    	var widget = uploadcare.SingleWidget('[role=uploadcare-uploader]');
+
+    	widget.onUploadComplete(function () {
+    		document.querySelector('.upload-form__button').style = 'display: inline-block';
+    	});
+    </script>
 {% endblock %}
