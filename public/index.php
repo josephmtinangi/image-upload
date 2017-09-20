@@ -39,11 +39,31 @@ $app->get('/', function () use ($app) {
 
 	$images = $images->fetchAll(PDO::FETCH_CLASS, Image::class);
 
-	return $app['twig']->render('home.twig');
-});
+	return $app['twig']->render('home.twig', [
+		'images' => $images,
+	]);
 
-$app->post('upload', function (Request $request) use ($app) {
-	var_dump($request);
+})->bind('home');
+
+$app->post('images', function (Request $request) use ($app) {
+	if ($request->get('file_id') === '' ) {
+		return $app->redirect($app['url_generator']->generate('home'));
+	}
+
+	$file = $app['uploadcare']->getFile($request->get('file_id'));
+
+	$image = $app['db']->prepare("
+		INSERT INTO images (hash, url)
+		VALUES(:hash, :url)
+	");
+
+	$image->execute([
+		'hash' => bin2hex(random_bytes(20)),
+		'url'  => $file->getUrl(),
+	]);
+
+	return $app->redirect($app['url_generator']->generate('home'));
+
 })->bind('images.store');
 
 $app->run();
