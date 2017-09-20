@@ -1,6 +1,7 @@
 <?php
 
 use AI\Models\Image;
+use AI\Providers\UploadcareServiceProvider;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -22,6 +23,8 @@ $app->register(new Silex\Provider\DoctrineServiceProvider, [
 		'charset'  => 'utf8',
 	],
 ]);
+
+$app->register(new UploadcareServiceProvider);
 
 $app->get('/', function () use ($app) {
 
