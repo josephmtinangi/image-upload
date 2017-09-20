@@ -30,8 +30,6 @@ $app->get('/', function () use ($app) {
 
 	$images = $images->fetchAll(PDO::FETCH_CLASS, Image::class);
 
-	var_dump($images);die();
-
 	return $app['twig']->render('home.twig');
 });
 
