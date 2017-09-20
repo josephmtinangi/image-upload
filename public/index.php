@@ -45,6 +45,25 @@ $app->get('/', function () use ($app) {
 
 })->bind('home');
 
+$app->get('images/{hash}', function (Request $request) use ($app) {
+	$image = $app['db']->prepare("
+		SELECT url FROM images WHERE hash=:hash
+	");
+
+	$image->execute([
+		'hash' => $request->get('hash'),
+	]);
+
+	$image->setFetchMode(PDO::FETCH_CLASS, Image::class);
+
+	$image = $image->fetch();
+
+	return $app['twig']->render('images/show.twig', [
+		'image' => $image,
+	]);
+
+})->bind('images.show');
+
 $app->post('images', function (Request $request) use ($app) {
 	if ($request->get('file_id') === '' ) {
 		return $app->redirect($app['url_generator']->generate('home'));

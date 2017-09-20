@@ -12,7 +12,7 @@
     <div class="thumbnails">
         {% for image in images %}
             <div class="thumbnail__thumb">
-                <a href="#">
+                <a href="{{ url('images.show', {hash: image.hash}) }}">
                     <img src="{{ app.uploadcare.getFile(image.url).scaleCrop(132, 185).getUrl }}" class="thumbnail__thumb-image" alt="">
                 </a>
             </div>
